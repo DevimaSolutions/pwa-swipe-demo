@@ -3,10 +3,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { useMemo } from 'react';
 
+import { Layout } from '@/components';
 import { theme, createEmotionCache } from '@/constants';
 
-import type { MyAppProps } from '@/components/types';
-import { Layout } from '@/components';
+import type { MyAppProps } from '@/types';
 
 function MyApp({ Component, pageProps, emotionCache }: MyAppProps) {
   const styleCache = useMemo(() => emotionCache || createEmotionCache(), [emotionCache]);

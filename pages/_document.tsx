@@ -4,7 +4,7 @@ import { Children } from 'react';
 
 import { createEmotionCache } from '@/constants';
 
-import type { AppAdditionalProps } from '@/components/types';
+import type { AppAdditionalProps } from '@/types';
 import type {
   NextComponentType,
   AppContextType,

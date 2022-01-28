@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import { Layout as LayoutTypes } from '@/components/types';
+import { Layout as LayoutTypes } from '@/types';
 
 import type { ILayoutProps } from './types';
 

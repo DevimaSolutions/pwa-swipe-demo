@@ -5,6 +5,9 @@ const styles = {
     flexDirection: 'column',
     '& > main': {
       flexGrow: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      background: '#eee',
     },
   },
 } as const;
