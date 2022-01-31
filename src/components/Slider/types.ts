@@ -1,6 +1,7 @@
+import type { BoxProps } from '@mui/system';
 import type { SwiperOptions } from 'swiper';
 
-export interface ISliderProps extends ISliderOptions {
+export interface ISliderProps extends ISliderOptions, Pick<BoxProps, 'sx'> {
   slides: JSX.Element[];
 }
 

@@ -1,13 +1,58 @@
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
+import { useState } from 'react';
+import { EffectCards } from 'swiper';
 
+import Slider from '@/components/Slider';
 import { combineSx } from '@/utils';
 
 import styles from './styles';
 
-import type { PaperProps } from '@mui/material';
+import type { CardProps } from './types';
 
-const Card = ({ sx, ...props }: PaperProps) => {
-  return <Paper sx={combineSx(sx, styles.container)} {...props} />;
+const Card = ({ sx, onRemove, onOpenDetails, ...props }: CardProps) => {
+  return (
+    <Box className="swiper-slide">
+      <Slider
+        sx={{ maxWidth: '100vw', width: '100vw' }}
+        modules={[EffectCards]}
+        initialSlide={1}
+        effect="cards"
+        cardsEffect={{
+          slideShadows: false,
+        }}
+        grabCursor
+        on={{
+          slideChange: (swiper) => {
+            console.log('slideChange', swiper);
+            if (swiper.progress > 0.6) {
+              onOpenDetails();
+            } else if (swiper.progress < 0.4) {
+              swiper.disable();
+              const slideElement = swiper.$el?.[0]?.parentElement?.parentElement;
+              if (slideElement) {
+                slideElement.style.height = '0px';
+                slideElement.style.opacity = '0';
+                slideElement.style.transform = 'translateY(50vh)';
+              }
+
+              setTimeout(onRemove, 500);
+            }
+          },
+        }}
+        slides={[
+          <Box key={0} className="swiper-slide">
+            <div />
+          </Box>,
+          <Box key={1} className="swiper-slide">
+            <Paper sx={combineSx(sx, styles.container)} {...props} />
+          </Box>,
+          <Box key={2} className="swiper-slide">
+            <div />
+          </Box>,
+        ]}
+      />
+    </Box>
+  );
 };
 
 export default Card;

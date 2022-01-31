@@ -2,7 +2,7 @@
   "name": "My App",
   "short_name": "My App",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "icons": [
     {
       "src": "/favicon.ico",
