@@ -3,11 +3,15 @@ const styles = {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
+    position: 'absolute',
+    width: '100vw',
+    left: 0,
+    top: 0,
     '& > main': {
+      overflow: 'hidden',
       flexGrow: 1,
       display: 'flex',
       flexDirection: 'column',
-      background: '#eee',
     },
   },
 } as const;

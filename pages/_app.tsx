@@ -11,16 +11,25 @@ import { theme, createEmotionCache } from '@/constants';
 
 import type { MyAppProps } from '@/types';
 
+const transitionTime = 300;
+
 function getGlobalStyles() {
   return {
+    '#__next': {
+      background: '#eee',
+      position: 'relative',
+      overflow: 'hidden',
+      width: '100vw',
+      height: '100vh',
+    },
     '.page-enter': {
-      opacity: 0,
-      transform: 'scale(1.1)',
+      zIndex: 1,
+      transform: 'translateX(100vw)',
     },
     '.page-enter-active': {
-      opacity: 1,
-      transform: 'scale(1)',
-      transition: 'opacity 300ms, transform 300ms',
+      zIndex: 1,
+      transform: 'translateX(0)',
+      transition: `transform ${transitionTime}ms cubic-bezier(0.4, 0, 0.2, 1)`,
     },
     '.page-exit': {
       opacity: 1,
@@ -28,10 +37,10 @@ function getGlobalStyles() {
     },
     '.page-exit-active': {
       opacity: 0,
-      transform: 'scale(0.9)',
-      transition: 'opacity 300ms, transform 300ms',
+      transform: 'scale(0.95)',
+      transition: `opacity ${transitionTime}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${transitionTime}ms cubic-bezier(0.4, 0, 0.2, 1)`,
     },
-  };
+  } as const;
 }
 
 function MyApp({ Component, pageProps, emotionCache }: MyAppProps) {
@@ -43,13 +52,21 @@ function MyApp({ Component, pageProps, emotionCache }: MyAppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <GlobalStyles styles={getGlobalStyles} />
-        <Layout>
-          <SwitchTransition mode="out-in">
-            <CSSTransition key={router.pathname} classNames="page" timeout={300}>
+        <SwitchTransition mode="in-out">
+          <CSSTransition
+            addEndListener={(node, done) => {
+              node.addEventListener('transitionend', done, false);
+            }}
+            key={router.pathname}
+            classNames="page"
+            timeout={transitionTime}
+            unmountOnExit
+          >
+            <Layout>
               <Component {...pageProps} />
-            </CSSTransition>
-          </SwitchTransition>
-        </Layout>
+            </Layout>
+          </CSSTransition>
+        </SwitchTransition>
       </ThemeProvider>
     </CacheProvider>
   );

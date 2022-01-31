@@ -10,7 +10,6 @@ const useSlider = (options?: ISliderOptions) => {
     if (!sliderRef.current) {
       return;
     }
-    console.log({ options });
 
     const swiper = new Swiper(sliderRef.current, {
       slidesPerView: 1,

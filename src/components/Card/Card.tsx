@@ -1,5 +1,4 @@
 import { Box, Paper } from '@mui/material';
-import { useState } from 'react';
 import { EffectCards } from 'swiper';
 
 import Slider from '@/components/Slider';
@@ -8,6 +7,7 @@ import { combineSx } from '@/utils';
 import styles from './styles';
 
 import type { CardProps } from './types';
+import type Swiper from 'swiper';
 
 const Card = ({ sx, onRemove, onOpenDetails, ...props }: CardProps) => {
   return (
@@ -22,10 +22,9 @@ const Card = ({ sx, onRemove, onOpenDetails, ...props }: CardProps) => {
         }}
         grabCursor
         on={{
-          slideChange: (swiper) => {
-            console.log('slideChange', swiper);
+          slideChange: (swiper: Swiper) => {
             if (swiper.progress > 0.6) {
-              onOpenDetails();
+              onOpenDetails(swiper);
             } else if (swiper.progress < 0.4) {
               swiper.disable();
               const slideElement = swiper.$el?.[0]?.parentElement?.parentElement;
@@ -35,7 +34,7 @@ const Card = ({ sx, onRemove, onOpenDetails, ...props }: CardProps) => {
                 slideElement.style.transform = 'translateY(50vh)';
               }
 
-              setTimeout(onRemove, 500);
+              setTimeout(onRemove, 500, swiper);
             }
           },
         }}
